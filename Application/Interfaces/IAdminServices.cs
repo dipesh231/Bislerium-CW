@@ -19,6 +19,12 @@ namespace Application.Interfaces
         Task<int> GetDailyCommentCount(DateTime date);
 
         Task<List<string>> GetTop10PopularPosts();
+
+        Task<List<string>> GetTop10PopularPostsByMonth(int month, int year);
+        
         Task<List<string>> GetTop10PopularBloggers();
+        Task<List<string>> GetTop10PopularBloggersByMonth(int month, int year);
+
+
     }
 }

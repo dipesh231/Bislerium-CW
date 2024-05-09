@@ -12,6 +12,7 @@ namespace Presentation.Controllers
         {
             _adminService = adminService;
         }
+
         [HttpGet("all-time-blog-post-count")]
         public async Task<IActionResult> GetAllTimeBlogPostCount()
         {
@@ -110,12 +111,40 @@ namespace Presentation.Controllers
             }
         }
 
+        [HttpGet("top-10-popular-posts-by-month")]
+        public async Task<IActionResult> GetTop10PopularPostsByMonth([FromQuery] int month, [FromQuery] int year)
+        {
+            try
+            {
+                var popularBloggers = await _adminService.GetTop10PopularPostsByMonth(month, year);
+                return Ok(popularBloggers);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
         [HttpGet("top-10-popular-bloggers")]
         public async Task<IActionResult> GetTop10PopularBloggers()
         {
             try
             {
                 var popularBloggers = await _adminService.GetTop10PopularBloggers();
+                return Ok(popularBloggers);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet("top-10-popular-bloggers-by-month")]
+        public async Task<IActionResult> GetTop10PopularBloggersByMonth([FromQuery] int month, [FromQuery] int year)
+        {
+            try
+            {
+                var popularBloggers = await _adminService.GetTop10PopularBloggersByMonth(month, year);
                 return Ok(popularBloggers);
             }
             catch (Exception ex)

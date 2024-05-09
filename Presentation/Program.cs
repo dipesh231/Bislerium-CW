@@ -62,6 +62,8 @@ namespace Presentation
             builder.Services.AddScoped<ICommentServices, CommentServices>();
             builder.Services.AddScoped<ILikeCommentServices, CommentLikeServices>();
             builder.Services.AddScoped<IBlogServices,BlogServices>();
+            builder.Services.AddScoped<IAdminServices, AdminServices>();
+
             builder.Services.AddScoped<ILikeServices, LikeServices>();
             builder.Services.AddIdentity<AppUser,IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>()

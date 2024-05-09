@@ -66,37 +66,48 @@ namespace Front_End.Controllers
             return View();
         }
 
-
         [HttpPost]
         public async Task<IActionResult> CreateBlog(Blog blog, IFormFile? ImageFile)
         {
+            // If user is authenticated, assign user ID to the blog
+            if (User.Identity.IsAuthenticated)
+            {
+                string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                blog.User = userId;
+            }
 
+            // If an image file is provided, save it to the server
             if (ImageFile != null)
             {
                 string filename = Guid.NewGuid() + Path.GetExtension(ImageFile.FileName);
                 string imgpath = Path.Combine(_env.WebRootPath, "Images/Blogs/", filename);
+
+                // Save the image file to the server
                 using (FileStream streamread = new FileStream(imgpath, FileMode.Create))
                 {
                     ImageFile.CopyTo(streamread);
                 }
+
+                // Set the image filename in the blog model
                 blog.Image = filename;
             }
 
+            // Send the blog data to the API endpoint
             using (var httpClient = new HttpClient())
             {
-                // return Json(blog);
-
                 StringContent content = new StringContent(JsonConvert.SerializeObject(blog), Encoding.UTF8, "application/json");
 
                 using (var response = await httpClient.PostAsync("https://localhost:7250/api/Blog/AddBlog", content))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
-                    //blog = JsonConvert.DeserializeObject<Blog>(apiResponse);
+                    // Handle API response if needed
                 }
             }
-            return RedirectToAction("Index", "Blog");
 
+            // Redirect to the blog index page
+            return RedirectToAction("Index", "Blog");
         }
+
 
         [HttpGet]
         public async Task<IActionResult> Update(Guid Id)

@@ -35,12 +35,20 @@
                     }
 
                    
-                    @if (User.Identity.IsAuthenticated && User.IsInRole("Blogger"))
+                    else if (User.Identity.IsAuthenticated && User.IsInRole("Blogger"))
                     {
 
                         <li>
-                            <a asp-area="" asp-controller="Blog" asp-action="Index">Uploaded Blog</a>
+                            <a asp-area="" asp-controller="Blog" asp-action="Index">My Blogs</a>
                         </li>
+                        <li>
+
+                                <a asp-area="" asp-controller="Account" asp-action="UpdateUser" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)">Update Profile</a>
+                            </li>
+                             <li>
+                                <a  asp-area="" asp-controller="Account" asp-action="ChangePassword">Change Password</a>
+                                </li>
+                            
                         <li>
                                 <form class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout"><button class="float-end" type="submit">Logout</button></form>
                          </li>

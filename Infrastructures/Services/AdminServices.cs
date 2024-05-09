@@ -45,12 +45,7 @@ namespace Infrastructures.Services
             return await _dbContext.Comments.CountAsync(c => c.Posted_At.Date == date.Date);
         }
 
-        //public async Task<int> GetDailyDownvoteCount(DateTime date)
-        //{
-        //    return await _dbContext.Likes
-        //        .Where(l => !l.ReactionType && l.CreatedAt != null && ((DateTime)l.CreatedAt).Date == date.Date)
-        //        .CountAsync();
-        //}
+        
         public async Task<int> GetDailyDownvoteCount(DateTime date)
         {
             return await _dbContext.Likes
@@ -76,12 +71,36 @@ namespace Infrastructures.Services
 
         public async Task<List<string>> GetTop10PopularBloggers()
         {
-            return await _dbContext.Blogs.GroupBy(b => b.User)
+            return await _dbContext.Blogs.GroupBy(b => b.userFK.UserName)
                                          .OrderByDescending(g => g.Count())
                                          .Select(g => g.Key)
                                          .Take(10)
                                          .ToListAsync();
+                                         
         }
 
+        public Task<List<string>> GetTop10PopularPostsByMonth(int month, int year)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<List<string>> GetTop10PopularBloggersByMonth(int month, int year)
+        {
+            var bloggerPopularity = await _dbContext.Blogs
+                .Include(x => x.userFK)
+                .GroupBy(x => x.userFK.Id) // Assuming UserId is the foreign key linking to the User table
+                .Select(g => new {
+                    UserId = g.Key,
+                    TotalPopularity = g.Sum(x => x.Popularity),
+                    User = g.FirstOrDefault().userFK
+                })
+                .OrderByDescending(x => x.TotalPopularity)
+                .Take(10)
+                .ToListAsync();
+
+            var topTenBloggers = bloggerPopularity.Select(x => x.UserId).ToList();
+
+            return topTenBloggers;
+        }
     }
 }

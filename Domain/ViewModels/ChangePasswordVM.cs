@@ -9,6 +9,7 @@ namespace Domain.ViewModels
 {
     public class ChangePasswordVM
     {
+        public string UserId { get; set; }
 
         [DataType(DataType.Password)]
         public string? OldPassword { get; set; }

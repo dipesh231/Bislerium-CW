@@ -9,9 +9,11 @@ namespace Domain.Entity
 {
     public class AppUser : IdentityUser
     {
-        public static implicit operator string?(AppUser? v)
-        {
-            throw new NotImplementedException();
-        }
+        public string? FirstName { get; set; }
+
+        public string? LastName { get; set; }
+
+        public string? PhoneNumber { get; set; }
     }
 }
+

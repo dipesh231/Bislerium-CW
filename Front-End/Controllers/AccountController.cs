@@ -7,6 +7,8 @@ using Newtonsoft.Json;
 using System.Security.Claims;
 using System.Text;
 using System.IdentityModel.Tokens.Jwt;
+using Domain.Entity;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 
 namespace Front_End.Controllers
 {
@@ -94,6 +96,136 @@ namespace Front_End.Controllers
 
             // Redirect the user to the home page or any other desired page after logout
             return RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> UpdateUser(string Id)
+        {
+            AppUser reservation = new AppUser();
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync("https://localhost:7250/api/Account/get/" + Id))
+                {
+                    if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        reservation = JsonConvert.DeserializeObject<AppUser>(apiResponse);
+                    }
+                    else
+                        ViewBag.StatusCode = response.StatusCode;
+                }
+            }
+            return View(reservation);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateUser(string id, AppUser appUser)
+        {
+
+            using (var httpClient = new HttpClient())
+            {
+
+                StringContent content = new StringContent(JsonConvert.SerializeObject(appUser), Encoding.UTF8, "application/json");
+
+                using (var response = await httpClient.PutAsync($"https://localhost:7250/api/Account/update/{id}", content))
+
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    //blog = JsonConvert.DeserializeObject<Blog>(apiResponse);
+                }
+            }
+            return RedirectToAction("Index", "Home");
+        }
+
+
+        public async Task<IActionResult> GetUser()
+        {
+            // Get the ID of the currently authenticated user
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            List<AppUser> userList = new List<AppUser>();
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync("https://localhost:7250/api/Account/GetUsers"))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    userList = JsonConvert.DeserializeObject<List<AppUser>>(apiResponse);
+                }
+            }
+
+            // Filter the blog list to only include blogs created by the current user
+
+
+            return View(userList);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(string Id)
+        {
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.DeleteAsync($"https://localhost:7250/api/Account/delete/{Id}"))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                }
+            }
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+
+            return RedirectToAction("Login", "Account");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ChangePassword()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync($"https://localhost:7250/api/Account/get/{userId}"))
+                {
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        var user = JsonConvert.DeserializeObject<AppUser>(apiResponse);
+
+                        var model = new ChangePasswordVM { UserId = user.Id };
+                        return View(model);
+                    }
+                    else
+                    {
+                        // Handle error response from API
+                        return View("Error");
+                    }
+                }
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ChangePasswordVM model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            using (var httpClient = new HttpClient())
+            {
+                var content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
+
+                using (var response = await httpClient.PutAsync($"https://localhost:7250/api/Account/change", content))
+                {
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return RedirectToAction("Index", "Home"); // Redirect to home page or any other page after successful password change
+                    }
+                    else
+                    {
+                        // Handle error response from API
+                        return View("Error");
+                    }
+                }
+            }
         }
 
     }

@@ -15,9 +15,12 @@
                 <h1>The One And Only Techno Blog</h1>
                 <p>Create an amazing blog about the modern tech and if you have got one share with us.</p>
                 <div class="right-hero-content">
-                    <a class="reaction-button text-decoration-none" asp-action ="CreateBlog" asp-controller="Blog">
-                    Add Blog
-                    </a>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <a class="reaction-button text-decoration-none" asp-action ="CreateBlog" asp-controller="Blog">
+                            Add Blog
+                        </a>
+                    }
                 </div>
             </div>
             <div class="right-hero-items">
