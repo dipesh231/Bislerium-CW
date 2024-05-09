@@ -33,10 +33,10 @@ namespace Infrastructures.Services
 
         }
 
-        public async Task<CommentResponseVM> AddDownVote(Like_Comment likecmt)
+        public async Task<LikeCommentResponseVM> AddDownVote(Like_Comment likecmt)
         {
             if (likecmt == null || likecmt.IsUpvote)
-                return new CommentResponseVM(false, "Invalid operation: like is null or it's an upvote");
+                return new LikeCommentResponseVM(false, "Invalid operation: like is null or it's an upvote");
 
             var commentService = new CommentServices(_context);
             var existingLike = await GetCommentsUserLike(likecmt.Comment, likecmt.User);
@@ -51,11 +51,11 @@ namespace Infrastructures.Services
                     
                     _context.Comments.Update(comments);
                     await _context.SaveChangesAsync();
-                    return new CommentResponseVM(true, "Downvote removed successfully", likecmt);
+                    return new LikeCommentResponseVM(true, "Downvote removed successfully", likecmt);
                 }
                 else
                 {
-                    return new CommentResponseVM(false, "Cannot downvote an upvoted post");
+                    return new LikeCommentResponseVM(false, "Cannot downvote an upvoted post");
                 }
             }
             else
@@ -65,15 +65,15 @@ namespace Infrastructures.Services
            
                 _context.Comments.Update(comments);
                 await _context.SaveChangesAsync();
-                return new CommentResponseVM(true, "Downvote added successfully", likecmt) ;
+                return new LikeCommentResponseVM(true, "Downvote added successfully", likecmt) ;
             }
 
 
         }
-        public async Task<CommentResponseVM> AddUpvote(Like_Comment likecmt)
+        public async Task<LikeCommentResponseVM> AddUpvote(Like_Comment likecmt)
         {
             if (likecmt == null || !likecmt.IsUpvote)
-                return new CommentResponseVM(false, "Invalid operation: like is null or it's an downvote");
+                return new LikeCommentResponseVM(false, "Invalid operation: like is null or it's an downvote");
 
             var commentService = new CommentServices(_context);
             var existingLike = await GetCommentsUserLike(likecmt.Comment, likecmt.User);
@@ -88,11 +88,11 @@ namespace Infrastructures.Services
 
                     _context.Comments.Update(comments);
                     await _context.SaveChangesAsync();
-                    return new CommentResponseVM(true, "Upvote removed successfully", likecmt);
+                    return new LikeCommentResponseVM(true, "Upvote removed successfully", likecmt);
                 }
                 else
                 {
-                    return new CommentResponseVM(false, "Cannot downvote an upvoted post");
+                    return new LikeCommentResponseVM(false, "Cannot downvote an upvoted post");
                 }
             }
             else
@@ -102,7 +102,7 @@ namespace Infrastructures.Services
 
                 _context.Comments.Update(comments);
                 await _context.SaveChangesAsync();
-                return new CommentResponseVM(true, "Upvote added successfully", likecmt);
+                return new LikeCommentResponseVM(true, "Upvote added successfully", likecmt);
             }
 
 

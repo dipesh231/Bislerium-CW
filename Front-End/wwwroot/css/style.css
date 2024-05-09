@@ -1,0 +1,797 @@
+@import url("https://fonts.googleapis.com/css2?family=PT+Serif:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
+/****FONT FAMILY******/
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Arial", Arial;
+}
+
+.main-container {
+  width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/***********NAVBAR STARS FROM HERE************/
+.navbar-section {
+  background: #00021c;
+}
+
+.main-navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.main-navbar-ul {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 25px;
+}
+.main-navbar-ul li {
+  list-style: none;
+}
+.main-navbar-ul li a {
+  text-decoration: none;
+  color: white;
+  font-size: 18px;
+  font-weight: 500;
+  font-family: "Poppins", sans-serif;
+  padding: 15px;
+  transition: 0.3s all ease-in-out;
+}
+.main-navbar-ul a:hover {
+  color: rgb(255, 184, 52);
+}
+
+.navbar-section {
+  padding: 30px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.two-navbar-buttons {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+.addblog-btn {
+  display: inline-block;
+  padding: 14px 25px;
+  background-color: rgb(0, 136, 255);
+  font-family: "Poppins", sans-serif;
+  font-size: 16px;
+  font-weight: 500px;
+  text-decoration: none;
+  color: white;
+  border-radius: 8px;
+  transition: 0.3s all ease-in-out;
+}
+
+.addblog-btn:hover, .register-btn:hover {
+  transform: scale(0.9);
+}
+
+.register-btn {
+  display: inline-block;
+  padding: 14px 25px;
+  background-color: rgb(229, 48, 48);
+  font-family: "Poppins", sans-serif;
+  font-size: 16px;
+  font-weight: 500px;
+  text-decoration: none;
+  color: white;
+  border-radius: 8px;
+  transition: 0.3s all ease-in-out;
+}
+
+.main-hero-bg {
+  color: white;
+  padding: 100px 0;
+}
+
+.main-hero-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  justify-items: end;
+}
+
+.left-hero-content h1 {
+  font-size: 3rem;
+  margin: 0;
+  color: black;
+  font-family: "Poppins", sans-serif;
+}
+
+.left-hero-content p {
+  font-size: 1.2rem;
+  margin-top: 10px;
+  font-family: "PT Serif", serif;
+  color: black;
+}
+
+.right-hero-content a {
+  display: inline-block;
+  padding: 12px 25px;
+  background-color: #00c14a;
+  font-family: "Poppins", sans-serif;
+  color: white;
+  text-decoration: none;
+  border-radius: 25px;
+  transition: 0.3s all ease-in-out;
+  margin-top: 15px;
+}
+
+.right-hero-content a:hover {
+  transform: scale(1.1);
+}
+
+.right-hero-items img {
+  border-radius: 8px;
+}
+
+.blog-post-section {
+  padding: 60px 0;
+}
+
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.blog-card {
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.blog-card-content {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.blog-card img {
+  width: 100%;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.blog-card h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.blog-card p {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.blog-metadata {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.read-more {
+  color: #ffc107;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.read-more:hover {
+  text-decoration: underline;
+}
+
+
+/********FOOTER SECTION STARTS FROM HERE************/
+
+
+.add-blog-section {
+  padding: 60px 0;
+}
+
+.form-card {
+  background: white;
+  padding: 40px;
+  border-radius: 10px;
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: left;
+}
+.form-card h2 {
+  text-align: center;
+  font-family: "Poppins", sans-serif;
+  margin-bottom: 25px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  font-size: 1rem;
+  display: block;
+  margin-bottom: 10px;
+  font-family: "Poppins", sans-serif;
+}
+
+input, textarea {
+  width: 70%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+input:focus, textarea:focus {
+  border-color: #ff7f50;
+  outline: none;
+}
+
+.form-buttons {
+  display: flex;
+  justify-content: center;
+}
+.form-buttons button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  background: #00c14a;
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s;
+  font-family: "Poppins", sans-serif;
+}
+.form-buttons button:hover {
+  border-radius: 0;
+}
+
+.blog-post-section {
+  padding: 60px 0;
+}
+
+.blog-post-card {
+  background: #cdffdc;
+  border-radius: 10px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  padding: 40px;
+  text-align: left;
+  font-family: "Poppins", sans-serif;
+}
+
+.blog-content img {
+  width: 100%;
+  height: auto;
+}
+
+.comnt-flex {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.blog-reactions {
+  display: flex;
+  justify-content: end;
+}
+
+.reaction-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background: #00c14a;
+  color: white;
+  cursor: pointer;
+  margin-right: 10px;
+  transition: background 0.3s;
+  font-family: "Poppins", sans-serif;
+}
+
+.reaction-button:hover {
+  background: #777;
+}
+
+.reaction-button i {
+  margin-right: 10px;
+}
+
+.comments-section {
+  border-top: 1px solid #ccc;
+  padding-top: 20px;
+  font-family: "Poppins", sans-serif;
+}
+
+#comments-list {
+  list-style: none;
+  padding: 0;
+}
+
+#comments-list li {
+  padding: 10px;
+  font-family: "Poppins", sans-serif;
+  border-bottom: 1px solid #ccc;
+}
+
+#comment-form {
+  margin-top: 20px;
+  font-family: "Poppins", sans-serif;
+}
+
+#comment-form textarea {
+  width: 70%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-family: "Poppins", sans-serif;
+}
+
+#comment-form button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background: #00c14a;
+  color: white;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background 0.3s;
+  font-family: "Poppins", sans-serif;
+}
+
+#comment-form button:hover {
+  background: #aaa;
+}
+
+.heading-blog-post {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.heading-blog-post h3 {
+  font-family: "Poppins", sans-serif;
+  color: #00c14a;
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.blog-content {
+  display: grid;
+  grid-gap: 15px;
+  grid-template-columns: 1fr 1fr;
+  margin-top: 35px;
+}
+.blog-content img {
+  border-radius: 8px;
+  width: 615px;
+  height: auto;
+  -o-object-fit: contain;
+     object-fit: contain;
+}
+
+.add-cmnt-btn {
+  display: flex;
+  justify-content: end;
+}
+
+/*******REGISTER PAGE STYLING**************/
+.registration-section {
+  margin-top: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Poppins", sans-serif;
+}
+
+.form-group-registration-newacc {
+  margin-top: 15px;
+}
+.form-group-registration-newacc a {
+  text-decoration: none;
+  color: #00c14a;
+}
+
+.form-group-registration {
+  margin-bottom: 20px;
+}
+
+.registration-card h2 {
+  margin-bottom: 15px;
+}
+
+.registration-container {
+  max-width: 400px;
+  padding: 20px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.registration-card {
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 20px;
+  display: flex;
+  gap: 15px;
+}
+
+.input-with-icon {
+  position: relative;
+}
+
+.input-with-icon input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-family: "Poppins", sans-serif;
+}
+
+.input-with-icon i {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.form-group-registration {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.form-group-registration-btn {
+  margin-top: 20px;
+}
+.form-group-registration-btn button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  background: #00c14a;
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s;
+  font-family: "Poppins", sans-serif;
+  transition: 0.3s all ease-in-out;
+}
+.form-group-registration-btn button:hover {
+  transform: scale(0.9);
+}
+
+.already-loginhere {
+  color: black;
+  font-family: "Poppins", sans-serif;
+}
+
+/*************USER LOGIN PAGE*****************/
+.login-section {
+  height: 100vh;
+  background: linear-gradient(135deg, #00c14a, #00ff7f);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Poppins", sans-serif;
+}
+
+.login-grid {
+  display: grid;
+  gap: 40px;
+  align-items: center;
+  justify-items: center;
+}
+
+.login-info {
+  color: white;
+  font-family: "Poppins", sans-serif;
+}
+
+.login-info h1 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  font-family: "Poppins", sans-serif;
+}
+
+.login-info p {
+  font-size: 1.2rem;
+  line-height: 1.5;
+  font-family: "Poppins", sans-serif;
+}
+
+.login-form-card {
+  background: white;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  text-align: left;
+  font-family: "Poppins", sans-serif;
+}
+
+.login-form-card h2 {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.login-form-card .form-group {
+  margin-bottom: 20px;
+  font-family: "Poppins", sans-serif;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 10px;
+  font-family: "Poppins", sans-serif;
+}
+
+.form-group input {
+  width: 70%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-family: "Poppins", sans-serif;
+}
+
+.form-group button {
+  padding: 10px 130px;
+  border-radius: 5px;
+  background: #00c14a;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s all ease-in-out;
+  font-family: "Poppins", sans-serif;
+}
+
+.form-group-login a {
+  text-decoration: none;
+  color: #00c14a;
+}
+
+.form-group button:hover {
+  background: #aaa;
+}
+
+/*********USER LOGIN SECTION ENDS FROM HERE*************/
+/**********USER PROFILE PAGE STYLING ENDS FROM HERE************/
+.user-profile-section {
+  padding: 60px 0;
+}
+
+.user-info {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin-bottom: 40px;
+  font-family: "Poppins", sans-serif;
+}
+
+.uer-profile-th {
+  background-color: #00c14a;
+}
+
+.user-profile-table {
+  width: 60%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.uer-profile-content-tr td {
+  color: black;
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+}
+
+.profile-picture img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  border: 2px solid #ccc;
+}
+
+.user-details {
+  margin-left: 20px;
+}
+
+.user-details h2 {
+  font-size: 1.8rem;
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+}
+
+.user-details p {
+  margin: 5px 0;
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+}
+
+#edit-profile {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background: #00c14a;
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s;
+  font-family: "Poppins", sans-serif;
+}
+
+#edit-profile:hover {
+  background: #aaa;
+}
+
+.user-blog-posts {
+  margin-top: 20px;
+}
+
+.user-blog-posts h3 {
+  font-size: 1.5rem;
+  font-family: "Poppins", sans-serif;
+  text-align: center;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: left;
+  color:black;
+}
+
+table th {
+  background: #f525f5;
+}
+
+.delete-post {
+  padding: 8px 15px;
+  border: none;
+  background: #00c14a;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: "Poppins", sans-serif;
+  transition: 0.3s all ease-in-out;
+}
+
+.delete-post:hover {
+  background: #aaa;
+}
+
+/*************ADMIN DASHBOARD SECTION STYLING STARTS FROM HERE***************/
+.admin-dashboard {
+  font-family: "Poppins", sans-serif;
+  background: #00c14a;
+  padding: 60px 0;
+}
+
+.dashboard-summary {
+  margin-bottom: 40px;
+}
+
+.dashboard-summary h2 {
+  text-align: center;
+  color: white;
+}
+
+.summary-cards {
+  display: grid;
+  justify-content: center;
+  grid-gap: 20px;
+}
+
+.summary-card {
+  background: orange;
+  color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  text-align: center;
+}
+
+.summary-card h3 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.summary-card p {
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+.dashboard-activity {
+  margin-bottom: 40px;
+}
+.dashboard-activity h3 {
+  color: white;
+}
+
+#activity-filter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#activity-filter label {
+  margin-right: 10px;
+  color: white;
+}
+
+#activity-filter input {
+  margin-right: 10px;
+}
+
+#activity-filter button {
+  padding: 10px 20px;
+  border-radius: 5px;
+  background: #ffffff;
+  color: black;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s all ease-in-out;
+}
+
+#activity-filter button:hover {
+  border-radius: 15px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+table th, table td {
+  padding: 10px;
+  border: 1px solid #ccc;
+  text-align: left;
+  color: black;
+}
+
+table th {
+  background: orange;
+}
+
+.dashboard-ranking {
+  margin-bottom: 40px;
+  color: white;
+  display: flex;
+  justify-content: space-around;
+}
+
+.dashboard-ranking ol {
+  padding: 0;
+  color: white;
+}
+
+.dashboard-ranking ol li {
+  padding: 10px;
+  color: white;
+}
+
+.dashboard-ranking h3 {
+  margin-bottom: 10px;
+  margin-top: 25px;
+}
+
+.admin-index-h2 {
+  margin-bottom: 25px;
+}/*# sourceMappingURL=style.css.map */

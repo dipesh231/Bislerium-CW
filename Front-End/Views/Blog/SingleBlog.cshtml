@@ -1,0 +1,154 @@
+﻿@using System.Security.Claims
+@model Domain.Entity.Blog
+
+@{
+    ViewData["Title"] = "SingleBlog";
+}
+<link href="~/css/style.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    Uploaded By: @Html.DisplayFor(model => model.userFK.Email)
+                </div>
+                <div class="card-body">
+                    <h2 class="card-title">@Html.DisplayFor(model => model.Title)</h2>
+                    <p class="card-text">Date: @Html.DisplayFor(model => model.Created_at)</p>
+                    <img class="img-fluid mb-3" src="@Url.Content("~/Images/Blogs/" + Model.Image)" alt="Blog Post Image">
+                    <p class="card-text">@Html.DisplayFor(model => model.Content)</p>
+                </div>
+                <div class="card-footer bg-light">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="reaction-button">
+                            <i class="fas fa-fire text-danger"></i> Popularity: @Html.DisplayFor(modelItem => Model.Popularity)
+                        </div>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <div class="blog-reactions">
+                                <form asp-controller="Blog" asp-action="UpvoteLike" method="post" class="like-button-form">
+                                    <input value="@User.FindFirstValue(ClaimTypes.NameIdentifier)?.ToString()" name="User" hidden />
+                                    <input value="@Model.Id" name="Blog" hidden />
+                                    <button type="submit" class="btn btn-outline-success"><i class="fas fa-thumbs-up"></i> Upvote <span id="upvote-count">@Html.DisplayFor(modelItem => Model.Likes)</span></button>
+                                </form>
+                                <form asp-controller="Blog" asp-action="DownvoteLike" method="post" class="like-button-form">
+                                    <input value="@User.FindFirstValue(ClaimTypes.NameIdentifier)?.ToString()" name="User" hidden />
+                                    <input value="@Model.Id" name="Blog" hidden />
+                                    <button type="submit" class="btn btn-outline-danger"><i class="fas fa-thumbs-down"></i> Downvote <span id="downvote-count">@Html.DisplayFor(modelItem => Model.Dislikes)</span></button>
+                                </form>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-header bg-info text-white">
+                    Comments
+                </div>
+                <div class="card-body">
+                    <ul class="list-group">
+                        @foreach (var comment in Model.Comments)
+                        {
+                            <li class="list-group-item">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <strong>@comment.User?.Email</strong>
+                                        <span class="ms-3">@comment.Posted_At.ToString("yyyy-MM-dd")</span>
+                                    </div>
+                                    <div>
+                                        <form asp-controller="Blog" asp-action="UpvoteCommentLike" method="post" class="like-button-form">
+                                            <input value="@User.FindFirstValue(ClaimTypes.NameIdentifier)?.ToString()" name="User" hidden />
+                                            <input value="@Model.Id" name="Comment" hidden />
+                                            <button type="submit" class="btn btn-sm btn-outline-success"><i class="fas fa-thumbs-up"></i> <span id="upvote-count-@comment.Id">@comment.Likes</span></button>
+                                        </form>
+                                        <form asp-controller="Blog" asp-action="DownvoteCommentLike" method="post" class="like-button-form">
+                                            <input value="@User.FindFirstValue(ClaimTypes.NameIdentifier)?.ToString()" name="User" hidden />
+                                            <input value="@Model.Id" name="Comment" hidden />
+                                            <button type="submit" class="btn btn-sm btn-outline-danger"><i class="fas fa-thumbs-down"></i> <span id="downvote-count-@comment.Id">@comment.Dislikes</span></button>
+                                        </form>
+                                    </div>
+                                </div>
+                                <p class="mt-2">@comment.Content</p>
+                            </li>
+                        }
+                    </ul>
+                </div>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <div class="card-footer bg-light">
+                        <form asp-controller="Blog" asp-action="CreateComment" method="post">
+                            <div class="form-group">
+                                <label for="comment">Add a comment:</label>
+                                <textarea class="form-control" id="comment" name="Content" rows="3"></textarea>
+                            </div>
+                            <input value="@User.FindFirstValue(ClaimTypes.NameIdentifier)?.ToString()" name="UserId" hidden />
+
+                            <input type="hidden" name="Blog_Id" value="@Model.Id" />
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.getElementById('upvote').addEventListener('click', function () {
+            let upvoteCount = document.getElementById('upvote-count');
+            upvoteCount.innerText = parseInt(upvoteCount.innerText) + 1;
+        });
+        document.getElementById('downvote').addEventListener('click', function () {
+            let downvoteCount = document.getElementById('downvote-count');
+            downvoteCount.innerText = parseInt(downvoteCount.innerText) + 1;
+        });
+        document.getElementById('comment-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const commentText = document.getElementById('comment-text').value.trim();
+            if (commentText.length === 0) {
+                alert("Please enter a comment.");
+                return;
+            }
+            const commentList = document.getElementById('comments-list');
+            const newComment = document.createElement('li');
+            newComment.textContent = commentText;
+            if (commentList.children.length === 1 && commentList.children[0].textContent === "No comments yet.") {
+                commentList.innerHTML = '';
+            }
+            commentList.appendChild(newComment);
+            document.getElementById('comment-text').value = '';
+        });
+
+        $(document).ready(function () {
+            $('.like-button-form').submit(function (event) {
+                event.preventDefault();
+                var form = $(this);
+                var url = form.attr('action');
+                var method = form.attr('method');
+                var data = form.serialize();
+
+                $.ajax({
+                    url: url,
+                    type: method,
+                    data: data,
+                    success: function (response) {
+                        // Update the like count displayed on the page
+                        var commentId = form.find('input[name="Comment"]').val();
+                        var likeCountElement = $('#upvote-count-' + commentId);
+                        likeCountElement.text(response.likeCount); // Assuming the API response contains the updated like count
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+            });
+        });
+
+
+    </script>
+
+}

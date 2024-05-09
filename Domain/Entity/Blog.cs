@@ -31,6 +31,7 @@ namespace Domain.Entity
         public int Likes { get; set; } = 0;
         public int Dislikes { get; set; } = 0;
         public int Comment_Count { get; set; } = 0;
+        public List<Comment>? Comments { get; set; }
 
 
         public int Popularity { get; set; } = 0;

@@ -10,8 +10,8 @@ namespace Application.Interfaces
 {
     public interface ILikeCommentServices
     {
-        Task<CommentResponseVM> AddUpvote(Like_Comment likecmt);
-        Task<CommentResponseVM> AddDownVote(Like_Comment likecmt);
+        Task<LikeCommentResponseVM> AddUpvote(Like_Comment likecmt);
+        Task<LikeCommentResponseVM> AddDownVote(Like_Comment likecmt);
         Task<Like_Comment> GetCommentsUserLike(Guid id,string u_id);
         Task DeleteVote(Guid id);
     }

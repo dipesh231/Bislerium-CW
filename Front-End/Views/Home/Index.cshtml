@@ -1,8 +1,53 @@
-﻿@{
+﻿@using System.Security.Claims
+@model IEnumerable<Domain.Entity.Blog>
+@using System.Security.Claims@*
+
+@model IEnumerable<Domain.Entity.Blog> *@
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<section class="main-hero-bg">
+    <div class="main-container">
+        <div class="main-hero-content">
+            <div class="left-hero-content">
+                <h1>The One And Only Techno Blog</h1>
+                <p>Create an amazing blog about the modern tech and if you have got one share with us.</p>
+                <div class="right-hero-content">
+                    <a class="reaction-button text-decoration-none" asp-action ="CreateBlog" asp-controller="Blog">
+                    Add Blog
+                    </a>
+                </div>
+            </div>
+            <div class="right-hero-items">
+                <img src="images/Blogs/hero background.jpeg" alt="">
+            </div>
+        </div>
+    </div>
+</section>
+<!---------HERO SECTION ENDS FROM HERE----------->
+<!---------RECENT BLOG POST SECTION STARTS FROM HERE--------------->
+<section class="blog-post-section">
+    <div class="main-container">
+        <div class="blog-grid">
+            @foreach (var item in Model)
+            {
+                <div class="blog-card">
+                    @if (!string.IsNullOrEmpty(item.Image))
+                    {
+
+                        <img src="~/Images/Blogs/@item.Image" height="50px" width="60px" />
+
+                    }
+
+                    <h3>@Html.DisplayFor(modelItem => item.Title)</h3>
+                    <p>@Html.DisplayFor(modelItem => item.Content)</p>
+                    <div class="blog-metadata">Uploaded Date @Html.DisplayFor(modelItem => item.Created_at)</div>
+                    <a href="@Url.Action("SingleBlog", "Blog", new { id = item.Id })" class="read-more">Continue</a>
+
+                </div>
+            }
+        </div>
+    </div>
+</section>
