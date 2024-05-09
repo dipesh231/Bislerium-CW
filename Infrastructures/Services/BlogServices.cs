@@ -54,7 +54,36 @@ namespace Infrastructures.Services
 
         }
 
-   
+        public async Task<IEnumerable<Blog>> GetAllBlogsPagination(string sortField, int pageNumber = 1, int pageSize = 1)
+        {
+            IQueryable<Blog> query = _context.Blogs;
+
+            switch (sortField.ToLower())
+            {
+                case "popularity":
+                    query = query.OrderByDescending(b => b.Popularity);
+                    break;
+                case "recency":
+                    // Sort by CreatedDate in descending order to get the latest blogs first
+                    query = query.OrderByDescending(b => b.Created_at);
+                    break;
+                case "random":
+                    // Shuffle the list randomly
+                    query = query.OrderBy(b => Guid.NewGuid());
+                    break;
+                default:
+                    // Default to sorting by popularity if invalid sortField is provided
+                    query = query.OrderByDescending(b => b.Popularity);
+                    break;
+            }
+            var blogs = await query
+               // Adjust the ordering as per your requirement
+               .Skip((pageNumber - 1) * pageSize)
+               .Take(pageSize)
+               .ToListAsync();
+
+            return blogs;
+        }
 
         public async Task<Blog> UpdateBlog(Blog blog)
         {

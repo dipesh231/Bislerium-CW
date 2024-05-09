@@ -112,7 +112,7 @@ namespace Presentation.Controllers
         }
 
         [HttpGet("top-10-popular-posts-by-month")]
-        public async Task<IActionResult> GetTop10PopularPostsByMonth([FromQuery] int month, [FromQuery] int year)
+        public async Task<IActionResult> GetTop10PopularPostByMonth([FromQuery] int month, [FromQuery] int year)
         {
             try
             {

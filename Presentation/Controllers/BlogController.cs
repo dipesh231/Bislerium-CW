@@ -45,6 +45,19 @@ namespace Presentation.Controllers
             return Ok(result);
         }
 
+        [HttpGet("GetBlogspag")]
+        public async Task<ActionResult<IEnumerable<Blog>>> GetAllBlogsPagination(string sortField, int pageNumber, int pageSize)
+        {
+
+            var result = await _blogService.GetAllBlogsPagination(sortField, pageNumber, pageSize);
+            if (result == null)
+            {
+                return NotFound();
+            }
+            return Ok(result);
+
+        }
+
         [HttpDelete, Route("DeleteBlog")]
         public async Task<IActionResult> DeleteBlog(Guid Id)
         {

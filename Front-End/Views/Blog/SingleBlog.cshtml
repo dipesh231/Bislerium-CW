@@ -51,6 +51,8 @@
                 </div>
                 <div class="card-body">
                     <ul class="list-group">
+                        @if (Model.Comments != null && Model.Comments.Any())
+
                         @foreach (var comment in Model.Comments)
                         {
                             <li class="list-group-item">
@@ -60,17 +62,16 @@
                                         <span class="ms-3">@comment.Posted_At.ToString("yyyy-MM-dd")</span>
                                     </div>
                                     <div>
-                                        @if (User.Identity.IsAuthenticated && comment.User != null && comment.User.Id == User.FindFirstValue(ClaimTypes.NameIdentifier))
-                                        {
-                                            <a href="@Url.Action("UpdateComment", "Blog", new { id = comment.Id })" class="btn btn-success">Edit</a>
-
-
-                                            <form asp-controller="Blog" asp-action="DeleteComment" method="post" onsubmit="return confirm('Are you sure you want to delete this blog?');">
-                                                <input type="hidden" name="id" value="@comment.Id" />
-                                                <button type="submit" class="btn btn-danger">Delete</button>
-                                            </form>
-
-                                        }
+                                            @if (User.Identity.IsAuthenticated && comment.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
+                                            {
+                                                <!-- Edit link -->
+                                                <a href="#" class="btn btn-link text-info">
+                                                    <i class="bi bi-pencil-square"></i> Edit
+                                                </a>
+                                                <a href="#" class="btn btn-link text-danger">
+                                                    <i class="bi bi-pencil-square"></i> Delete
+                                                </a>
+                                            }
                                         <form asp-controller="Blog" asp-action="UpvoteCommentLike" method="post" class="like-button-form">
                                             <input value="@User.FindFirstValue(ClaimTypes.NameIdentifier)" name="User" hidden />
                                             <input value="@Model.Id" name="Comment" hidden />
@@ -84,8 +85,14 @@
                                     </div>
                                 </div>
                                 <p class="mt-2">@comment.Content</p>
-                            </li>
+                                </li>
+                            }
+                        else
+                        {
+                        <li>No comments yet.</li>
                         }
+
+            
                     </ul>
                 </div>
                 @if (User.Identity.IsAuthenticated)

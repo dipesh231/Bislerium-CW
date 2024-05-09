@@ -29,6 +29,57 @@ namespace Front_End.Controllers
             return View(blogList);
 
         }
+        public async Task<IActionResult> Blogs(string sortField = "random", int pageNumber = 1, int pageSize = 9)
+        {
+
+            List<Blog> blogList = new List<Blog>();
+            string apiUrl = $"https://localhost:7250/api/Blog/GetBlogspag?pageNumber={pageNumber}&pageSize={pageSize}&sortField={sortField}";
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(apiUrl))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    blogList = JsonConvert.DeserializeObject<List<Blog>>(apiResponse);
+                }
+            }
+            ViewBag.PageNumber = pageNumber;
+            ViewBag.PageSize = pageSize;
+
+            var totalBlogsCount = await GetTotalBlogsCount();
+            ViewBag.PageCount = (int)Math.Ceiling((double)totalBlogsCount / pageSize);
+
+            return View(blogList);
+        }
+        private async Task<int> GetTotalBlogsCount()
+        {
+            var apiUrl = "https://localhost:7250/api/Blog/GetBlogs";
+
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(apiUrl))
+                {
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+
+                        // Deserialize the JSON response into a collection of objects
+                        var blogs = JsonConvert.DeserializeObject<List<Blog>>(apiResponse);
+
+                        // Get the count of objects
+                        int count = blogs.Count;
+
+                        // You can return the count or do any other processing with it
+                        return count;
+                    }
+                    else
+                    {
+                        // Handle error if needed
+                        return 0;
+                    }
+                }
+            }
+
+        }
 
         public async Task<IActionResult> SingleBlog(Guid id)
         {
